@@ -269,6 +269,12 @@ function ProductList({ onHomeClick }) {
         setShowCart(false); // Hide the cart when navigating to About Us
     };
 
+    const handleRemovePlant = (product) => {
+        setAddedToCart((prevState) => ({
+            ...prevState, [product.name]: false
+        }));
+    };
+
     const handleContinueShopping = (e) => {
         e.preventDefault();
         setShowCart(false);
@@ -324,7 +330,11 @@ function ProductList({ onHomeClick }) {
                                         />
                                         <div className="product-price">{plant.cost}</div>
                                         <div>{plant.description}</div>
-                                        <button className='product-button' onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        {!addedToCart[plant.name] ? (
+                                            <button className='product-button' onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        ) : (
+                                            <button className='product-button added-to-cart'>Add to Cart</button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -333,7 +343,7 @@ function ProductList({ onHomeClick }) {
 
                 </div>
             ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
+                <CartItem onContinueShopping={handleContinueShopping} onRemovePlant={handleRemovePlant}/>
             )}
         </div>
     );

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
-const CartItem = ({ onContinueShopping }) => {
+const CartItem = ({ onContinueShopping, onRemovePlant }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
@@ -20,8 +20,6 @@ const CartItem = ({ onContinueShopping }) => {
     onContinueShopping(e);
   };
 
-
-
   const handleIncrement = (item) => {
     item = {
         ...item,
@@ -32,6 +30,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   const handleDecrement = (item) => {
     if (item.quantity == 1) {
+        onRemovePlant(item);
         dispatch(removeItem(item.name));
         return;
     }
@@ -43,6 +42,7 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleRemove = (item) => {
+    onRemovePlant(item);
     dispatch(removeItem(item.name));
   };
 
